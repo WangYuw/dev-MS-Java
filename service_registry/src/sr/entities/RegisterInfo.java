@@ -1,17 +1,58 @@
 package sr.entities;
 
-public class RegisterInfo {
+import java.io.Serializable;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+@Entity (name = "RegisterInfo")
+@Table (name = "REGISTERINFO")
+public class RegisterInfo implements Serializable {
 	
-	private Long id;
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Basic(optional=false)
+	@NotNull
+	@Column(name="instance_id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long id;
+	
+	@Size(max=255)
+	@NotNull
+	@Column(name="service_name")
 	private String name;
-	private String ip;
-	private String version;
-	private ServiceQuality quality;
 	
-	public RegisterInfo() {
+	@Size(max=255)
+	@NotNull
+	@Column(name="instance_ip", unique=true)
+	private String ip;
+	
+	@Size(max=255)
+	@NotNull
+	@Column(name="service_version")
+	private String version;
+	
+    @OneToOne(fetch = FetchType.LAZY,optional = true)
+    @JoinColumn(name = "instance_quality", nullable = true)
+	private ServiceQuality quality;
+       
+    public RegisterInfo() {
+		super();
 	}
 
-	public RegisterInfo(Long id, String name, String ip, String version,
+	public RegisterInfo(long id, String name, String ip, String version,
 			ServiceQuality quality) {
 		super();
 		this.id = id;
@@ -21,11 +62,11 @@ public class RegisterInfo {
 		this.quality = quality;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -61,11 +102,31 @@ public class RegisterInfo {
 		this.quality = quality;
 	}
 
+	public static RegisterInfo fromRegisterInfoTO(EntityManager em, RegisterInfoTO rito) {
+    	RegisterInfo ri = new RegisterInfo();
+		ri.setId(rito.getId());
+		ri.setIp(rito.getIp());
+		ri.setName(rito.getName());
+		ri.setVersion(rito.getVersion());
+		ri.setQuality(rito.getQualityId() == 0 ? null : em.find(ServiceQuality.class, rito.getQualityId()));
+		return ri;
+	}
+	
+	public RegisterInfoTO toRegisterInfoTO() {
+		RegisterInfoTO rito = new RegisterInfoTO();
+		rito.setId(this.id);
+		rito.setIp(this.ip);
+		rito.setName(this.name);
+		rito.setVersion(this.version);
+		rito.setQualityId(this.quality == null ? 0 : this.quality.getId());
+		return rito;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((ip == null) ? 0 : ip.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((quality == null) ? 0 : quality.hashCode());
@@ -82,10 +143,7 @@ public class RegisterInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		RegisterInfo other = (RegisterInfo) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (id != other.id)
 			return false;
 		if (ip == null) {
 			if (other.ip != null)
@@ -115,5 +173,5 @@ public class RegisterInfo {
 		return "RegisterInfo [id=" + id + ", name=" + name + ", ip=" + ip
 				+ ", version=" + version + ", quality=" + quality + "]";
 	}
-	
+    
 }

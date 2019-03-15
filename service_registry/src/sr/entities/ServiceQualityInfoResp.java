@@ -5,13 +5,13 @@ public class ServiceQualityInfoResp {
 	private String name;
 	private long serviceId;
 	private String ip;
-	private ServiceQuality quality;
+	private ServiceQualityTO quality;
 	
 	public ServiceQualityInfoResp() {
 	}
 
 	public ServiceQualityInfoResp(String name, long serviceId, String ip,
-			ServiceQuality quality) {
+			ServiceQualityTO quality) {
 		super();
 		this.name = name;
 		this.serviceId = serviceId;
@@ -43,11 +43,11 @@ public class ServiceQualityInfoResp {
 		this.ip = ip;
 	}
 
-	public ServiceQuality getQuality() {
+	public ServiceQualityTO getQuality() {
 		return quality;
 	}
 
-	public void setQuality(ServiceQuality quality) {
+	public void setQuality(ServiceQualityTO quality) {
 		this.quality = quality;
 	}
 
