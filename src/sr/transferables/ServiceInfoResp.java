@@ -1,33 +1,24 @@
-package sr.entities;
+package sr.transferables;
 
-public class RegisterInfoTO {
+public class ServiceInfoResp {
 	
-	private long id;
 	private String name;
+	private long serviceId;
 	private String ip;
 	private String version;
-	private long qualityId;
+	private long ttl;
 	
-	public RegisterInfoTO() {
-		super();
+	public ServiceInfoResp() {
 	}
-	
-	public RegisterInfoTO(long id, String name, String ip, String version,
-			long qualityId) {
+
+	public ServiceInfoResp(String name, long serviceId, String ip,
+			String version, long ttl) {
 		super();
-		this.id = id;
 		this.name = name;
+		this.serviceId = serviceId;
 		this.ip = ip;
 		this.version = version;
-		this.qualityId = qualityId;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
+		this.ttl = ttl;
 	}
 
 	public String getName() {
@@ -36,6 +27,14 @@ public class RegisterInfoTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public long getServiceId() {
+		return serviceId;
+	}
+
+	public void setServiceId(long serviceId) {
+		this.serviceId = serviceId;
 	}
 
 	public String getIp() {
@@ -54,23 +53,22 @@ public class RegisterInfoTO {
 		this.version = version;
 	}
 
-	
-	public long getQualityId() {
-		return qualityId;
+	public long getTtl() {
+		return ttl;
 	}
 
-	public void setQualityId(long qualityId) {
-		this.qualityId = qualityId;
+	public void setTtl(long ttl) {
+		this.ttl = ttl;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((ip == null) ? 0 : ip.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + (int) (qualityId ^ (qualityId >>> 32));
+		result = prime * result + (int) (serviceId ^ (serviceId >>> 32));
+		result = prime * result + (int) (ttl ^ (ttl >>> 32));
 		result = prime * result + ((version == null) ? 0 : version.hashCode());
 		return result;
 	}
@@ -83,9 +81,7 @@ public class RegisterInfoTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RegisterInfoTO other = (RegisterInfoTO) obj;
-		if (id != other.id)
-			return false;
+		ServiceInfoResp other = (ServiceInfoResp) obj;
 		if (ip == null) {
 			if (other.ip != null)
 				return false;
@@ -96,7 +92,9 @@ public class RegisterInfoTO {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (qualityId != other.qualityId)
+		if (serviceId != other.serviceId)
+			return false;
+		if (ttl != other.ttl)
 			return false;
 		if (version == null) {
 			if (other.version != null)
@@ -108,8 +106,8 @@ public class RegisterInfoTO {
 
 	@Override
 	public String toString() {
-		return "RegisterInfoTO [id=" + id + ", name=" + name + ", ip=" + ip
-				+ ", version=" + version + ", qualityId=" + qualityId + "]";
+		return "ServiceInfoResp [name=" + name + ", serviceId=" + serviceId
+				+ ", ip=" + ip + ", version=" + version + ", ttl=" + ttl + "]";
 	}
 	
 }

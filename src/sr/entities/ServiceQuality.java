@@ -8,11 +8,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import sr.transferables.ServiceQualityTO;
+
 @Entity (name = "ServiceQuality")
 @Table (name = "SERVICEQUALITY")
+
+@NamedQueries({
+    @NamedQuery(name = "ServiceQuality.findAll", query = "SELECT sq FROM ServiceQuality sq"),
+    @NamedQuery(name = "ServiceQuality.findById", query = "SELECT sq FROM ServiceQuality sq WHERE sq.id = :id"),
+})
 public class ServiceQuality  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -23,9 +32,10 @@ public class ServiceQuality  implements Serializable {
 	@Column(name="quality_id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
-	
 	@Column(name="instance_load")
 	private float load;
+	//@OneToOne(mappedBy="quality")
+	//private RegisterInfo registerInfo;
 
 	public ServiceQuality() {
 		super();
@@ -53,6 +63,14 @@ public class ServiceQuality  implements Serializable {
 		this.load = load;
 	}
 	
+	/*public RegisterInfo getRegisterInfo() {
+		return registerInfo;
+	}
+
+	public void setRegisterInfo(RegisterInfo registerInfo) {
+		this.registerInfo = registerInfo;
+	}*/
+
 	public static ServiceQuality fromServiceQualityTO(ServiceQualityTO sqto) {
 		ServiceQuality sq = new ServiceQuality();
 		sq.setId(sqto.getId());

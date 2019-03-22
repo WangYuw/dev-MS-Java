@@ -11,13 +11,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import sr.transferables.RegisterInfoTO;
+
 @Entity (name = "RegisterInfo")
 @Table (name = "REGISTERINFO")
+
+@NamedQueries({
+    @NamedQuery(name = "RegisterInfo.findAll", query = "SELECT ri FROM RegisterInfo ri"),
+    @NamedQuery(name = "RegisterInfo.findById", query = "SELECT ri FROM RegisterInfo ri WHERE ri.id = :id"),
+    @NamedQuery(name = "RegisterInfo.findByName", query = "SELECT ri FROM RegisterInfo ri WHERE ri.name = :name"),
+    @NamedQuery(name = "RegisterInfo.findByVersion", query = "SELECT ri FROM RegisterInfo ri WHERE ri.version = :version"),
+    @NamedQuery(name = "RegisterInfo.findByNameVersion", query = "SELECT ri FROM RegisterInfo ri WHERE ri.name = :name AND ri.version = :version"),
+    @NamedQuery(name = "RegisterInfo.findByIp", query = "SELECT ri FROM RegisterInfo ri WHERE ri.ip = :ip")
+})
 public class RegisterInfo implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

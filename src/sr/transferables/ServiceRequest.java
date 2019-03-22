@@ -1,4 +1,4 @@
-package sr.entities;
+package sr.transferables;
 
 public class ServiceRequest {
 	
